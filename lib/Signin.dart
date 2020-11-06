@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mtflix/main.dart';
 
-class signin extends State<durum> {
+class Signin extends StatefulWidget {
+
+  @override
+  State<StatefulWidget> createState() {
+    return kayit();
+  }
+}
+class kayit extends State<Signin>{
   @override
   int _aktifAdim = 0;
   List<GlobalKey<FormFieldState>> fieldKeyler = new List();
@@ -137,13 +144,13 @@ class signin extends State<durum> {
             onTap: () {
               if (_aktifAdim == 1) {
                 showDatePicker(
-                        cancelText: "İPTAL",
-                        confirmText: "TAMAM",
-                        helpText: "Doğum Tarihinizi Seçin",
-                        context: context,
-                        initialDate: suan,
-                        firstDate: yuzYilOncesi,
-                        lastDate: suan)
+                    cancelText: "İPTAL",
+                    confirmText: "TAMAM",
+                    helpText: "Doğum Tarihinizi Seçin",
+                    context: context,
+                    initialDate: suan,
+                    firstDate: yuzYilOncesi,
+                    lastDate: suan)
                     .then((secilenTarih) {
                   dogum = "${secilenTarih.day}-${secilenTarih.month}-${secilenTarih.year}";
                   dogumKontrol.text = "$dogum";
@@ -234,11 +241,11 @@ class signin extends State<durum> {
         state: durumAyarla(3), // sol üstteki durumu görsellememize yarar.
         title: Text("Parola", style: TextStyle(color: Colors.grey)),
         subtitle: Text(
-    "En az 1 büyük harf\n"+
-    "En az 1 küçük harf\n"+
-    "En az 1 rakam\n"+
-    "En az 1 özel karakter (! @ # \$ & * ~ .)\n"+
-    "kullanılmalıdır.", style: TextStyle(color: Colors.grey) ),
+            "En az 1 büyük harf\n"+
+                "En az 1 küçük harf\n"+
+                "En az 1 rakam\n"+
+                "En az 1 özel karakter (! @ # \$ & * ~ .)\n"+
+                "kullanılmalıdır.", style: TextStyle(color: Colors.grey) ),
         content: Container(
           padding: EdgeInsets.only(top: 4),
           child: TextFormField(
@@ -316,6 +323,10 @@ class signin extends State<durum> {
                 return "Parolalar uyuşmuyor!";
               }
 
+
+            },
+            onSaved: (kontrol){
+              Navigator.pop(context);
             },
           ),
         ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mtflix/Signin.dart';
 import 'package:mtflix/main.dart';
+import 'package:mtflix/Management.dart';
 
-class Login extends State<durum> {
+class Login extends State<anaEkran> {
   _fieldFocusChange(
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
@@ -13,10 +15,16 @@ class Login extends State<durum> {
     final size = MediaQuery.of(context).size;
     double ekranY = size.width;
     double ekranX = size.height;
-    var _mailkontrol = TextEditingController();
-    var _sifrekontrol = TextEditingController();
+    // var _mailkontrol = TextEditingController();
+    // var _sifrekontrol = TextEditingController();
     final FocusNode _mailFocus = FocusNode();
     final FocusNode _sifreFocus = FocusNode();
+    String girilenmail;
+    String girilensifre;
+    //Sisteme giriş için kullanılacak kullanıcı bilgileri//
+    String ka="admin@turk.com";                          //
+    String pwd="061219*";                                //
+    ///////////////////////////////////////////////////////
     return Scaffold(
       body: Container(
           color: Colors.black,
@@ -56,17 +64,18 @@ class Login extends State<durum> {
                               ? ekranY - 50
                               : ekranY - 20,
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                            padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
                             child: TextFormField(
+                              onChanged: (value){
+                                girilenmail=value;
+                              },
                               focusNode: _mailFocus,
-                              controller: _mailkontrol,
+                              //controller: _mailkontrol,
                               keyboardType: TextInputType.emailAddress,
                               style: TextStyle(
                                 color: Colors.white,
                               ),
-                              decoration: const InputDecoration(
-                                /*hintStyle: TextStyle(color: Colors.white),
-                    hintText: 'E-posta adresinizi giriniz.',*/
+                              decoration:  InputDecoration(
                                 prefixIcon: Icon(
                                   Icons.email,
                                   color: Colors.white,
@@ -97,28 +106,35 @@ class Login extends State<durum> {
                         ),
                         Container(
                           width: MediaQuery.of(context).orientation ==
-                                  Orientation.landscape
+                              Orientation.landscape
                               ? ekranY - 300
                               : MediaQuery.of(context).orientation ==
-                                          Orientation.portrait &&
-                                      ekranY < 360
-                                  ? ekranY - 50
-                                  : ekranY - 20,
+                              Orientation.portrait &&
+                              ekranY < 360
+                              ? ekranY - 50
+                              : ekranY - 20,
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                            padding:  EdgeInsets.fromLTRB(30, 20, 30, 0),
                             child: TextFormField(
+                              onChanged: (value){
+                                girilensifre=value;
+                              },
                               focusNode: _sifreFocus,
                               keyboardType: TextInputType.visiblePassword,
-                              controller: _sifrekontrol,
+                              // controller: _sifrekontrol,
                               obscureText: true,
                               style: TextStyle(
                                 color: Colors.white,
                               ),
-                              decoration: const InputDecoration(
-                                suffixIcon: IconButton(
-                                  icon: Icon(Icons.arrow_forward_ios,
-                                      color: Colors.white),
-                                ),
+                              decoration: InputDecoration(
+                                suffixIcon: IconButton(icon: Icon(Icons.arrow_forward_ios,color: Colors.white,),
+                                    onPressed: (){
+                                      debugPrint(girilensifre+girilenmail);
+                                      if(girilenmail.compareTo(ka)==0 && girilensifre.compareTo(pwd)==0){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>(anaSayfa())));
+                                      }
+
+                                    }),
                                 prefixIcon: Icon(
                                   Icons.vpn_key,
                                   color: Colors.white,
@@ -141,17 +157,17 @@ class Login extends State<durum> {
                               ),
                               maxLines: 1,
                               textInputAction: TextInputAction.done,
+                              onFieldSubmitted: (term) {
+                                _sifreFocus.unfocus();
+                                FocusScope.of(context).requestFocus(new FocusNode());
+                              },
                             ),
                           ),
                         ),
                         FlatButton(
-                          child: Text("Şimdi Kaydol ${widget.sayac}"),
+                          child: Text("Şimdi Kaydol"),
                           onPressed: () {
-                            setState(() {
-                              widget.sayac++;
-                            });
-                            print(
-                                "kayıt sayfasına yönlendiriliyor ${widget.sayac}");
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Signin()));
                           },
                           padding: EdgeInsets.fromLTRB(20, 30, 20, 20),
                           textColor: Colors.white,
@@ -197,6 +213,10 @@ class Login extends State<durum> {
             ],
           )),
     );
+  }
+
+  girisKontrol() {
+    debugPrint("");
   }
 
 }
